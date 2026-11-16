@@ -111,7 +111,7 @@ export function BackLink({ href, label }: { href: string; label: string }) {
 }
 
 // ---------- Filter kategori + pencarian (portfolio & blog) ----------
-type Query = { category?: string; search?: string; page?: string };
+type Query = { [param: string]: string | undefined; category?: string; search?: string; page?: string };
 
 function href(base: string, q: Query) {
   const params = new URLSearchParams(Object.entries(q).filter(([, v]) => v) as [string, string][]);
@@ -144,8 +144,8 @@ export function FilterBar({ base, query, categories, placeholder }: {
   );
 }
 
-export function Pagination({ base, query, total }: { base: string; query: Query; total: number }) {
-  const pages = Math.ceil(total / PER_PAGE);
+export function Pagination({ base, query, total, perPage = PER_PAGE }: { base: string; query: Query; total: number; perPage?: number }) {
+  const pages = Math.ceil(total / perPage);
   if (pages <= 1) return null;
   const current = Math.min(Math.max(1, Number(query.page) || 1), pages);
   const link = (p: number) => href(base, { ...query, page: p > 1 ? String(p) : undefined });

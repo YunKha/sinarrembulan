@@ -180,16 +180,12 @@ export async function getCareer(slug: string) {
 }
 
 // ---------- Helper tampilan ----------
-// Path di DB (mis. "portfolios/a.jpg") -> URL publik bucket 'media'. URL penuh dibiarkan apa adanya.
-export function mediaUrl(path: string | null | undefined) {
-  if (!path) return null;
-  if (/^https?:\/\//.test(path)) return path;
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${path}`;
-}
+export { mediaUrl } from "./site";
 
+// timeZone eksplisit: server Vercel berjalan di UTC, tanggal harus sesuai WIB.
 export function formatDate(iso: string | null | undefined) {
   if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+  return new Date(iso).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric", timeZone: "Asia/Jakarta" });
 }
 
 export function readingTime(html: string) {

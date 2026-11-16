@@ -94,7 +94,8 @@ create table portfolio_categories (
 
 create table portfolios (
   id bigint generated always as identity primary key,
-  category_id bigint not null references portfolio_categories on delete cascade,
+  -- restrict: kategori yang masih dipakai tidak bisa dihapus (cascade akan ikut menghapus semua portfolio-nya).
+  category_id bigint not null references portfolio_categories on delete restrict,
   title text not null,
   slug text not null unique,
   thumbnail text,
@@ -166,7 +167,7 @@ create table blog_categories (
 
 create table blogs (
   id bigint generated always as identity primary key,
-  category_id bigint not null references blog_categories on delete cascade,
+  category_id bigint not null references blog_categories on delete restrict,
   -- Laravel: cascade. Di sini set null agar menghapus admin tidak ikut menghapus artikelnya.
   author_id uuid references profiles on delete set null,
   title text not null,
@@ -225,7 +226,7 @@ create table career_applications (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   -- Batas sama dengan validasi Laravel; dijaga di DB karena form publik menulis langsung lewat anon key.
-  check (char_length(name) <= 255 and char_length(email) <= 255 and email like '%_@_%'
+  constraint career_applications_len check (char_length(name) <= 255 and char_length(email) <= 255 and email like '%_@_%'
      and char_length(phone) <= 20 and char_length(cv_file) <= 255
      and char_length(coalesce(cover_letter, '')) <= 2000
      and char_length(coalesce(linkedin_url, '')) <= 255
@@ -260,7 +261,7 @@ create table contact_messages (
   is_replied boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  check (char_length(name) <= 255 and char_length(email) <= 255 and email like '%_@_%'
+  constraint contact_messages_len check (char_length(name) <= 255 and char_length(email) <= 255 and email like '%_@_%'
      and char_length(coalesce(phone, '')) <= 20 and char_length(coalesce(company, '')) <= 255
      and char_length(subject) <= 255 and char_length(message) <= 5000)
 );
@@ -288,7 +289,7 @@ create table social_links (
 
 create table newsletter_subscribers (
   id bigint generated always as identity primary key,
-  email text not null unique check (char_length(email) <= 255 and email like '%_@_%'),
+  email text not null unique constraint newsletter_email_len check (char_length(email) <= 255 and email like '%_@_%'),
   is_active boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -330,7 +331,11 @@ create policy public_read on careers              for select using (is_active);
 create policy public_read on teams                for select using (is_active);
 create policy public_read on website_settings     for select using (true);
 create policy public_read on social_links         for select using (is_active);
--- Profil berisi email/HP: hanya pemiliknya (dan admin, lewat admin_all) yang boleh baca.
+-- Profil berisi email/HP: hanya pemiliknya dan admin yang boleh baca.
+-- Tidak ada policy tulis: role & akun hanya diubah dari server (service role) setelah cek Super Admin,
+-- agar admin biasa tidak bisa menaikkan role-nya sendiri lewat API.
+drop policy admin_all on profiles;
+create policy admin_read on profiles for select using (is_admin());
 create policy own_read on profiles for select using (id = auth.uid());
 -- Nama penulis blog untuk publik, tanpa kolom sensitif.
 create view blog_authors as select id, name from profiles;
@@ -353,4 +358,6 @@ create policy media_admin_write on storage.objects for all
 create policy cv_public_upload on storage.objects for insert
   with check (bucket_id = 'cv');
 create policy cv_admin_read on storage.objects for select
+  using (bucket_id = 'cv' and is_admin());
+create policy cv_admin_delete on storage.objects for delete
   using (bucket_id = 'cv' and is_admin());
