@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ===== Tema: port 1:1 dari tailwind.config.js Laravel ===== */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme {
+  --color-primary-50: #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-200: #c7d2fe;
+  --color-primary-300: #a5b4fc;
+  --color-primary-400: #818cf8;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-primary-800: #1e293b;
+  --color-primary-900: #0f172a;
+  --color-primary-950: #020617;
+
+  --color-cyan-50: #ecfeff;
+  --color-cyan-100: #cffafe;
+  --color-cyan-200: #a5f3fc;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #22d3ee;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-600: #0891b2;
+  --color-cyan-700: #0e7490;
+  --color-cyan-800: #155e75;
+  --color-cyan-900: #164e63;
+
+  --color-dark-100: #1e293b;
+  --color-dark-200: #1a2332;
+  --color-dark-300: #151d2b;
+  --color-dark-400: #111827;
+  --color-dark-500: #0f172a;
+  --color-dark-600: #0c1220;
+  --color-dark-700: #090e18;
+  --color-dark-800: #060a10;
+  --color-dark-900: #030508;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-hero-in: hero-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+  @keyframes hero-in {
+    from { opacity: 0; transform: translateY(24px); filter: blur(6px); }
+    to { opacity: 1; transform: none; filter: none; }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ===== Base ===== */
+html { scroll-behavior: smooth; }
+body { @apply bg-primary-900 text-gray-200 font-sans antialiased overflow-x-hidden; }
+::selection { background: rgba(6, 182, 212, 0.35); color: #fff; }
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { @apply bg-primary-900; }
+::-webkit-scrollbar-thumb { @apply bg-cyan-800 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-cyan-600; }
+
+/* ===== Komponen: port dari resources/css/app.css ===== */
+@layer components {
+  .glass-card { @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl; }
+
+  .btn-primary {
+    @apply inline-flex items-center px-8 py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-xl
+      hover:from-cyan-400 hover:to-blue-500 transition-all duration-300
+      shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 hover:-translate-y-0.5
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900
+      disabled:opacity-60 disabled:pointer-events-none;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center px-8 py-3.5 bg-transparent border-2 border-cyan-400/50 text-cyan-400 font-semibold rounded-xl
+      hover:bg-cyan-400/10 hover:border-cyan-400 transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .card-hover { @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-cyan-500/10; }
+
+  .section-padding { @apply py-20 lg:py-28; }
+  .section-title { @apply text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-white mb-4 text-balance; }
+  .section-subtitle { @apply text-lg text-gray-400 max-w-2xl mx-auto; }
+  .section-badge {
+    @apply inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-sm font-medium mb-4;
+  }
+
+  .nav-link { @apply relative text-gray-300 hover:text-white font-medium transition-colors duration-300 py-2; }
+  .nav-link::after {
+    content: "";
+    @apply absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-cyan-400 to-blue-500 transition-all duration-300;
+  }
+  .nav-link:hover::after, .nav-link.active::after { @apply w-full; }
+  .nav-link.active { @apply text-cyan-400; }
+
+  .input {
+    @apply w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500
+      focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors;
+  }
+  .chip { @apply px-4 py-2 rounded-xl text-sm font-medium transition-all; }
+  .chip-off { @apply bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white border border-white/10; }
+  .chip-on { @apply bg-cyan-500 text-white; }
+
+  .particle { @apply absolute rounded-full bg-cyan-400/20; animation: float var(--duration, 6s) ease-in-out infinite var(--delay, 0s); }
 }
+
+@utility bg-mesh {
+  background-image:
+    radial-gradient(at 40% 20%, rgba(6, 182, 212, 0.15) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(6, 182, 212, 0.08) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%);
+}
+@utility bg-grid {
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ===== Animasi muncul saat scroll (pengganti AOS) =====
+   CSS scroll-driven animation: tanpa JavaScript. Browser yang belum mendukung, atau pengguna
+   yang memilih "reduce motion", langsung melihat konten tanpa animasi.
+   Atribut data-aos dipertahankan agar markup tetap mirip Blade. --i = urutan untuk efek bertahap.
+   Keyframe memakai `transform`, sedangkan hover Tailwind v4 memakai `translate`/`scale`,
+   jadi keduanya tidak saling menimpa. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    [data-aos] {
+      animation: aos-up linear both;
+      animation-timeline: view();
+      animation-range: entry calc(var(--i, 0) * 6%) entry calc(70% + var(--i, 0) * 6%);
+    }
+    [data-aos="fade-right"] { animation-name: aos-right; }
+    [data-aos="fade-left"] { animation-name: aos-left; }
+  }
+}
+@keyframes aos-up { from { opacity: 0; transform: translateY(40px); } }
+@keyframes aos-right { from { opacity: 0; transform: translateX(-60px); } }
+@keyframes aos-left { from { opacity: 0; transform: translateX(60px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; }
+}
+
+/* ===== Konten HTML dari admin (blog, deskripsi layanan) =====
+   Blade memakai class `prose` tanpa plugin typography, jadi gayanya tidak pernah aktif. Ini versi minimalnya. */
+.prose { @apply text-gray-300 leading-relaxed; }
+.prose > * + * { margin-top: 1.1em; }
+.prose h2 { @apply text-2xl font-heading font-bold text-white mt-10; }
+.prose h3 { @apply text-xl font-heading font-semibold text-white mt-8; }
+.prose a { @apply text-cyan-400 underline underline-offset-2 hover:text-cyan-300; }
+.prose ul { @apply list-disc pl-6 space-y-1; }
+.prose ol { @apply list-decimal pl-6 space-y-1; }
+.prose blockquote { @apply border-l-4 border-cyan-500/50 pl-4 italic text-gray-400; }
+.prose code { @apply bg-white/10 rounded px-1.5 py-0.5 text-sm text-cyan-300; }
+.prose pre { @apply bg-dark-700 border border-white/10 rounded-xl p-4 overflow-x-auto; }
+.prose pre code { @apply bg-transparent p-0; }
+.prose img { @apply rounded-xl; }
+.prose-lg { @apply text-lg; }
