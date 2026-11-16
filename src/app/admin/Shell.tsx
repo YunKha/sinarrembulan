@@ -90,7 +90,7 @@ export default function Shell({ name, children, signOut }: { name: string; child
   );
 
   return (
-    <div className="flex min-h-screen bg-primary-950">
+    <div className="flex min-h-svh bg-primary-950">
       {/* Sidebar desktop */}
       <aside className={`hidden lg:flex flex-col bg-dark-600 border-r border-white/5 transition-all duration-300 fixed h-full z-30 ${open ? "w-64" : "w-20"}`}>
         {brand(open)}{nav(open)}{logout(open)}

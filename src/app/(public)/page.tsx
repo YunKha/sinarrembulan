@@ -49,7 +49,7 @@ export default async function HomePage() {
   return (
     <>
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
+      <section className="relative min-h-svh flex items-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-950 via-primary-900 to-dark-600" />
         {heroBg && <Image src={heroBg} alt="" fill priority sizes="100vw" className="object-cover opacity-20" />}
         <div className="absolute inset-0 bg-grid opacity-40" />

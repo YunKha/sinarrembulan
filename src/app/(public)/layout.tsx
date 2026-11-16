@@ -29,7 +29,8 @@ export default async function PublicLayout({ children }: { children: React.React
         Lewati ke konten
       </a>
       <Navbar />
-      <main id="main">{children}</main>
+      {/* clip: animasi fade-left/right (geser 60px) tidak bikin scroll horizontal; overflow-x di body tidak selalu dipatuhi iOS Safari. */}
+      <main id="main" className="overflow-x-clip">{children}</main>
       <Footer />
 
       <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noopener noreferrer" aria-label="Chat via WhatsApp"

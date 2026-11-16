@@ -16,7 +16,7 @@ function InfoCard({ icon, title, children }: { icon: string; title: string; chil
         <div className="w-12 h-12 bg-cyan-500/10 rounded-xl flex items-center justify-center shrink-0">
           <Svg d={icon} className="w-6 h-6 text-cyan-400" />
         </div>
-        <div><h2 className="text-white font-semibold mb-1">{title}</h2><div className="text-gray-400 text-sm">{children}</div></div>
+        <div className="min-w-0"><h2 className="text-white font-semibold mb-1">{title}</h2><div className="text-gray-400 text-sm break-words">{children}</div></div>
       </div>
     </div>
   );

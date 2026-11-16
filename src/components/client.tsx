@@ -64,7 +64,7 @@ export function NewsletterForm() {
     <div className="w-full lg:w-auto">
       <form onSubmit={onSubmit} className="flex w-full gap-3">
         <input type="email" name="email" required maxLength={255} placeholder="Enter your email" aria-label="Email"
-          className="flex-1 lg:w-80 px-5 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-cyan-500/20 focus:ring-2 transition-all" />
+          className="flex-1 min-w-0 lg:w-80 px-5 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-cyan-500/20 focus:ring-2 transition-all" />
         <button type="submit" disabled={loading} className="btn-primary px-6! whitespace-nowrap">
           {loading ? "..." : "Subscribe"}
         </button>

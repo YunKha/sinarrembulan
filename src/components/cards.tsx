@@ -151,7 +151,7 @@ export function Pagination({ base, query, total, perPage = PER_PAGE }: { base: s
   const link = (p: number) => href(base, { ...query, page: p > 1 ? String(p) : undefined });
   const cls = "min-w-10 h-10 px-3 rounded-xl text-sm font-medium flex items-center justify-center transition-all";
   return (
-    <nav className="mt-10 flex justify-center gap-2" aria-label="Pagination">
+    <nav className="mt-10 flex flex-wrap justify-center gap-2" aria-label="Pagination">
       {current > 1 && <Link href={link(current - 1)} className={`${cls} chip-off`} aria-label="Halaman sebelumnya">‹</Link>}
       {Array.from({ length: pages }, (_, i) => i + 1).map((p) => (
         <Link key={p} href={link(p)} aria-current={p === current ? "page" : undefined}

@@ -56,7 +56,7 @@ async function uploadImage(file: File, folder: string) {
 }
 
 const fileClass =
-  "text-sm text-gray-400 file:mr-3 file:bg-cyan-500/20 file:text-cyan-400 file:border-0 file:rounded-lg file:px-4 file:py-2 file:cursor-pointer";
+  "max-w-full text-sm text-gray-400 file:mr-3 file:bg-cyan-500/20 file:text-cyan-400 file:border-0 file:rounded-lg file:px-4 file:py-2 file:cursor-pointer";
 
 function ImageField({ field, value }: { field: Field; value: string | null }) {
   const [path, setPath] = useState(value ?? "");
@@ -74,13 +74,13 @@ function ImageField({ field, value }: { field: Field; value: string | null }) {
   };
 
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex flex-wrap items-start gap-4">
       <input type="hidden" name={field.name} value={path} />
       {busy && <span data-uploading hidden />}
       <div className="w-28 h-20 shrink-0 rounded-xl bg-white/5 border border-white/10 overflow-hidden flex items-center justify-center">
         {url ? <img src={url} alt="" className="w-full h-full object-cover" /> : <span className="text-gray-600 text-xs">No image</span>}
       </div>
-      <div className="space-y-2">
+      <div className="space-y-2 min-w-0">
         <input ref={input} type="file" accept="image/*" onChange={(e) => onPick(e.target.files?.[0])} className={fileClass} />
         <div className="flex gap-3 text-xs">
           {busy && <span className="text-cyan-400">Mengupload...</span>}
@@ -183,7 +183,7 @@ export function ResourceForm({ fields, values, options, gallery, action, cancelH
   const checks = fields.filter((f) => f.type === "checkbox");
   return (
     <ActionForm action={action}>
-      <div className="grid sm:grid-cols-2 gap-x-4 gap-y-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-5">
         {inputs.map((f) => (
           <Fragment key={f.name}>
             {f.section && <h3 className="sm:col-span-2 text-white font-heading font-semibold text-lg mt-4 first:mt-0">{f.section}</h3>}

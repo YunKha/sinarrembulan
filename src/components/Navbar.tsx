@@ -83,7 +83,8 @@ export default function Navbar() {
       {/* Menu mobile: animasi buka/tutup lewat grid-rows (tinggi otomatis tanpa JS ukur). */}
       <div className={`lg:hidden grid transition-all duration-300 ${open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
         <div className="overflow-hidden">
-          <div className="px-4 py-6 space-y-2 bg-primary-900/95 backdrop-blur-xl border-t border-white/5">
+          {/* HP landscape: menu lebih tinggi dari layar, jadi bisa di-scroll. */}
+          <div className="max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain px-4 py-6 space-y-2 bg-primary-900/95 backdrop-blur-xl border-t border-white/5">
             {LINKS.map(([href, label]) => (
               <Link key={href} href={href} tabIndex={open ? 0 : -1}
                 className={`block px-4 py-3 rounded-xl hover:text-white hover:bg-white/5 transition-all ${

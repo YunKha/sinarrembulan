@@ -63,6 +63,10 @@ body { @apply bg-primary-900 text-gray-200 font-sans antialiased overflow-x-hidd
 select option { background: var(--color-primary-900); color: #fff; }
 input[type="checkbox"] { accent-color: var(--color-cyan-500); }
 input[type="date"] { color-scheme: dark; }
+/* iOS Safari otomatis zoom saat mengetuk input di bawah 16px. Tanpa @layer agar menang dari text-sm/text-xs. */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea { font-size: 16px; }
+}
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { @apply bg-primary-900; }
@@ -160,7 +164,10 @@ input[type="date"] { color-scheme: dark; }
 
 /* ===== Konten HTML dari admin (blog, deskripsi layanan) =====
    Blade memakai class `prose` tanpa plugin typography, jadi gayanya tidak pernah aktif. Ini versi minimalnya. */
-.prose { @apply text-gray-300 leading-relaxed; }
+.prose { @apply text-gray-300 leading-relaxed break-words; }
+/* Tabel/embed dari editor tidak boleh melebarkan halaman di HP. */
+.prose table { @apply block overflow-x-auto; }
+.prose iframe, .prose video { @apply max-w-full; }
 .prose > * + * { margin-top: 1.1em; }
 .prose h2 { @apply text-2xl font-heading font-bold text-white mt-10; }
 .prose h3 { @apply text-xl font-heading font-semibold text-white mt-8; }

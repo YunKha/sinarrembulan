@@ -11,7 +11,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const { next } = await searchParams;
 
   return (
-    <main className="relative min-h-screen bg-primary-950 flex items-center justify-center px-4 overflow-hidden">
+    <main className="relative min-h-svh bg-primary-950 flex items-center justify-center px-4 overflow-hidden">
       <div className="absolute inset-0 bg-mesh opacity-30" />
       <div className="absolute inset-0 bg-grid opacity-20" />
       <div className="relative w-full max-w-md animate-hero-in">

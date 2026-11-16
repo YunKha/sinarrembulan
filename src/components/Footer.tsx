@@ -74,7 +74,7 @@ export default async function Footer() {
               </p>
               <a href={`mailto:${setting("company_email", "info@sinarrembulan.com")}`} className="flex items-center gap-3 group">
                 <Svg d={P.mail} className="w-5 h-5 text-cyan-400 shrink-0" />
-                <span className="text-gray-400 text-sm group-hover:text-cyan-400 transition-colors">{setting("company_email", "info@sinarrembulan.com")}</span>
+                <span className="text-gray-400 text-sm break-all group-hover:text-cyan-400 transition-colors">{setting("company_email", "info@sinarrembulan.com")}</span>
               </a>
               <a href={`tel:${setting("company_phone", "+62 21 1234 5678").replace(/\s/g, "")}`} className="flex items-center gap-3 group">
                 <Svg d={P.phone} className="w-5 h-5 text-cyan-400 shrink-0" />
